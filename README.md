@@ -104,15 +104,15 @@ Solve the inverse problem using Tikhonov Regularisation
 
 Build the MCMC model and use it to find optimal parameter distributions, run it with, for example
 
-`python STEP_03_MCMC.py --npz Example_In_Outputs/step2_out/step2_pre_yields.npz \
- --A0 236 --En 2.53e-8  --outdir Example_In_Outputs/step_3_mcmc_put\
+`python STEP_03_MCMC.py --npz Example_In_Outputs/step2_out/step2_pre_yields.npz
+ --A0 236 --En 2.53e-8  --outdir Example_In_Outputs/step_3_mcmc_put
  --nwalkers 100 --nsteps 60000 --burnin 10000 --thin 15`
 
 **Note** This stage is where all the hard work occurs. Choosing appropriate Priors is essential to generate plausible parameter distributions
 
 Sample from the $\mu$ and $L$ output from step 3 to see the practical effects of the posteriors calculated during MCMC. 
 
-`python STEP_04_Sampling_Diagnostics.py --npz Example_In_Outputs/step_3_mcmc_out/step3_mcmc.npz\
+`python STEP_04_Sampling_Diagnostics.py --npz Example_In_Outputs/step_3_mcmc_out/step3_mcmc.npz
  --A0 236 --En 2.53e-8 --N 20000 --outdir Example_In_Outputs/step_04_Sampling`
 
 This script includes rejection criteria for when parameters which violate constraints on weights or $\mu_3$ are violated.
