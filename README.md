@@ -38,14 +38,14 @@ These issues motivated a physics driven approach of sampling these correalted pa
 - 1) Extract evaluated mass yield files in the format $Y(A,Z)$ - post emission
 - 2) Collapse these evaluated values into $Y(A)$ - post emission
 - 3) Generate a response matrix (M) using CGMF which maps $Y_{pre}(A)$ to $Y_{post}(A)$
-- 4) Use Tikhonov Regularisation to perform the inversion $Y_{pre}(A)$ = $M^{-1}$$Y_{post}(A)$
+- 4) Use Tikhonov Regularisation to perform the inversion $Y_{pre}(A)$ = $M^{-1}$ $Y_{post}(A)$
 - 5) Use Markov Chain Monte Carlo to sample parameters and Bayesian inference to update understanding of parameter distributions
 
 **Output**
 
 Assume all paramters follow Gaussian distributions. Final result is:
 - Mean Values ($\mu$) for each of the 14 paramters
-- Covariance matrix describing parameter uncertainties and correlations between parameters (stored as Cholesky decomposed lower matrix ($L$)).
+- Covariance matrix describing parameter uncertainties and correlations between parameters (stored as Cholesky decomposed lower matrix $L$).
 
 These can then be sampled on line to produce plausible, random 3-Gaussian parameterisation of pre-emission fragment mass yields. This sampling is done according to:
 
@@ -70,12 +70,12 @@ Output plots showing pre emission yields calculated from the response matrix and
 
 Plots showing final posterior mass yields calculated after MCMC treatment.
 
-![Step 3 PNG output showing final posterior mass yields calculated after MCMC treatment](Example_In_Outputs/step3_mcmc_out/yield_posterior.png)
+![Step 3 PNG output showing final posterior mass yields calculated after MCMC treatment](Example_In_Outputs/step_3_mcmc_out/yield_posterior.png)
 
 
 Correlation matrix describing underlying 3-Gaussian paramters after MCMC calculations.
 
-![Step 3 PNG output showing final posterior mass yields calculated after MCMC treatment](Example_In_Outputs/step3_mcmc_out/posterior_correlation.png)
+![Step 3 PNG output showing final posterior mass yields calculated after MCMC treatment](Example_In_Outputs/step_3_mcmc_out/posterior_correlation.png)
 
 Output of 2000 random samples of the mean and covariance information output from the MCMC calculations
 
@@ -88,13 +88,13 @@ Example workflow is as follows:
 
 Place evaluated yields file in working directory as CSV, verify that the $Y(A,Z)$ to $Y(A)$ collapse is performed correctly using
 
-'python STEP_01_Load_Data.py --input Example_In_Outputs/U235_Thermal.csv'
+`python STEP_01_Load_Data.py --input Example_In_Outputs/U235_Thermal.csv`
 
 This generates the file step1_output.npz for future use.
 
 Elsewhere generate CGMF histories file for desired fissioning system. Generate the response matrix JSON output using
 
-`Generate_CGMF_Response_Matrix.py path/to/histories --output out_response_matrix.json'
+`Generate_CGMF_Response_Matrix.py path/to/histories --output out_response_matrix.json`
 
 **Note** This project was designed to be run using HPC. You can input as many input histories files as you want as long as they are listed first after the python script.
 
@@ -104,12 +104,14 @@ Solve the inverse problem using Tikhonov Regularisation
 
 Build the MCMC model and use it to find optimal parameter distributions, run it with, for example
 
-` python STEP_03_MCMC.py --npz Example_In_Outputs/step2_out/step2_pre_yields.npz  --A0 236 --En 2.53e-8  --outdir Example_In_Outputs/step_3_mcmc_put   --nwalkers 100 --nsteps 60000 --burnin 10000 --thin 15`
+`python STEP_03_MCMC.py --npz Example_In_Outputs/step2_out/step2_pre_yields.npz \ --A0 236 --En 2.53e-8  --outdir Example_In_Outputs/step_3_mcmc_put\  --nwalkers 100 --nsteps 60000 --burnin 10000 --thin 15`
 
 **Note** This stage is where all the hard work occurs. Choosing appropriate Priors is essential to generate plausible parameter distributions
 
-Sample from the $\mu$ and $L$ output from step 3 to see the practical effects of the posteriors calculated during MCMC
+Sample from the $\mu$ and $L$ output from step 3 to see the practical effects of the posteriors calculated during MCMC. 
 
-`python STEP_04_Sampling_Diagnostics.py --npz Example_In_Outputs/step_3_mcmc_out/step3_mcmc.npz --A0 236 --En 2.53e-8 --N 20000 --outdir Example_In_Outputs/step_04_Sampling`
+`python STEP_04_Sampling_Diagnostics.py --npz Example_In_Outputs/step_3_mcmc_out/step3_mcmc.npz\ --A0 236 --En 2.53e-8 --N 20000 --outdir Example_In_Outputs/step_04_Sampling`
+
+This script includes rejection criteria for when parameters which violate constraints on weights or $\mu_3$ are violated.
 
 **Note** All python scripts in this project have more than the listed parameters, investigate yourself using --help!
