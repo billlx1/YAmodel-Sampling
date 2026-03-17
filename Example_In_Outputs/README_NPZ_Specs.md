@@ -23,10 +23,10 @@ This file stores the **fragment mass transition probability matrices and metadat
 It contains the probability matrix
 
 \[
-P(A_{post} \mid A_{pre})
+P(A$_{post}$ \mid A$_{pre}$)
 \]
 
-which represents the probability that a fragment with **pre-neutron emission mass** \(A_{pre}\) is observed with **post-neutron emission mass** \(A_{post}\).
+which represents the probability that a fragment with **pre-neutron emission mass** \(A$_{pre}$\) is observed with **post-neutron emission mass** \(A$_{post}$\).
 
 The file also contains the **raw count matrix**, **relative statistical errors**, and **metadata describing the simulation inputs**.
 
@@ -38,8 +38,8 @@ The file also contains the **raw count matrix**, **relative statistical errors**
 |----|----|----|
 | `metadata` | object | Information about the dataset, source files, and generation time |
 | `axes` | object | Defines the mass number axes used by the matrices |
-| `count_matrix` | object | Raw fragment counts \(N(A_{pre} \rightarrow A_{post})\) |
-| `probability_matrix` | object | Conditional probability matrix \(P(A_{post} \mid A_{pre})\) |
+| `count_matrix` | object | Raw fragment counts \(N(A$_{pre}$ \rightarrow A$_{post}$)\) |
+| `probability_matrix` | object | Conditional probability matrix \(P(A$_{post}$ \mid A$_{pre}$)\) |
 | `relative_error_matrix` | object | Relative statistical errors derived from Poisson counting |
 
 ---
@@ -85,9 +85,9 @@ A_post = axes["A_post"][j]
 |------|------|-------------|
 | `description` | string | Description of the matrix |
 | `units` | string | `"counts"` |
-| `data` | 2D array[int] | Raw fragment counts \(N(A_{pre} \rightarrow A_{post})\) |
+| `data` | 2D array[int] | Raw fragment counts \(N(A$_{pre}$ \rightarrow A$_{post}$)\) |
 
-Each element represents the number of fragments with mass \(A_{pre}\) that ended up with mass \(A_{post}\).
+Each element represents the number of fragments with mass \(A$_{pre}$\) that ended up with mass \(A$_{post}$\).
 
 ---
 
@@ -102,14 +102,14 @@ Each element represents the number of fragments with mass \(A_{pre}\) that ended
 Each row is normalized:
 
 \[
-P(A_{post} \mid A_{pre}) =
-\frac{N(A_{pre} \rightarrow A_{post})}{N(A_{pre})}
+P(A$_{post}$ \mid A$_{pre}$) =
+\frac{N(A$_{pre}$ \rightarrow A$_{post}$)}{N(A$_{pre}$)}
 \]
 
 where
 
 \[
-N(A_{pre}) = \sum_{A_{post}} N(A_{pre} \rightarrow A_{post})
+N(A$_{pre}$) = \sum_{A$_{post}$} N(A$_{pre}$ \rightarrow A$_{post}$)
 \]
 
 ---
@@ -125,8 +125,8 @@ N(A_{pre}) = \sum_{A_{post}} N(A_{pre} \rightarrow A_{post})
 Errors follow **Poisson counting statistics**:
 
 \[
-\delta_{rel}(A_{post} \mid A_{pre}) =
-\frac{1}{\sqrt{N(A_{pre} \rightarrow A_{post})}}
+\delta_{rel}(A$_{post}$ \mid A$_{pre}$) =
+\frac{1}{\sqrt{N(A$_{pre}$ \rightarrow A$_{post}$)}}
 \]
 
 Cells with zero counts contain **0**, since the relative error is undefined.
@@ -137,8 +137,8 @@ Cells with zero counts contain **0**, since the relative error is undefined.
 
 | Dimension | Represents |
 |-----------|------------|
-| Rows | \(A_{pre}\) (pre-neutron fragment mass) |
-| Columns | \(A_{post}\) (post-neutron fragment mass) |
+| Rows | \(A$_{pre}$\) (pre-neutron fragment mass) |
+| Columns | \(A$_{post}$\) (post-neutron fragment mass) |
 
 Example interpretation:
 
@@ -207,7 +207,7 @@ This file contains NumPy arrays describing the **inferred pre-neutron mass yield
 | `A_post` | `float64` | `(n_post,)` | Mass number axis for post-neutron fragments |
 | `Y_post_aligned` | `float64` | `(n_post,)` | Evaluated post-neutron yield data aligned to `A_post` |
 | `sigma_post_aligned` | `float64` | `(n_post,)` | Uncertainties corresponding to `Y_post_aligned` |
-| `Y_post_pred` | `float64` | `(n_post,)` | Forward-folded prediction \(Y_{pre} × R\), expected to reproduce `Y_post_aligned` |
+| `Y_post_pred` | `float64` | `(n_post,)` | Forward-folded prediction \(Y$_{pre}$ × R\), expected to reproduce `Y_post_aligned` |
 
 ---
 
@@ -215,7 +215,7 @@ This file contains NumPy arrays describing the **inferred pre-neutron mass yield
 
 | Field | Type | Description |
 |------|------|-------------|
-| `nonnegative_used` | `bool` | `True` if the `--nonnegative` option was used to enforce \(Y_{pre} ≥ 0\) |
+| `nonnegative_used` | `bool` | `True` if the `--nonnegative` option was used to enforce \(Y$_{pre}$ ≥ 0\) |
 | `nonnegative_info` | `string` | JSON-formatted optimizer output from the SciPy least-squares solver when non-negative refinement is used |
 
 
